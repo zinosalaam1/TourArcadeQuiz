@@ -9,6 +9,11 @@ import Scoreboard from "../components/Scoreboard";
 
 const API_BASE_URL = "https://tourarcade-quiz.onrender.com/api";
 
+const WS_BASE_URL =
+  window.location.protocol === "https:"
+    ? "wss://tourarcade-quiz.onrender.com/ws/game/"
+    : "ws://localhost:8000/ws/game/";
+
 export default function TeamView() {
   const { teamId } = useParams<{ teamId: string }>();
   const navigate = useNavigate();
@@ -27,13 +32,13 @@ export default function TeamView() {
   }, [navigate, teamId]);
 
   // Auto refresh session (temporary until WebSocket phase)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refreshSession();
-    }, 4000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     refreshSession();
+  //   }, 4000);
 
-    return () => clearInterval(interval);
-  }, [refreshSession]);
+  //   return () => clearInterval(interval);
+  // }, [refreshSession]);
 
   if (!team || !gameSession) {
     return <div className="p-6 text-white">Loading...</div>;
@@ -75,6 +80,46 @@ export default function TeamView() {
     navigate("/");
   };
 
+useEffect(() => {
+  if (!gameSession?.id) return;
+
+  const ws = new WebSocket(`${WS_BASE_URL}${gameSession.id}/`);
+
+  ws.onopen = () => {
+    console.log("Connected to WebSocket");
+  };
+
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    console.log("WS Message:", data);
+
+    // Backend sends: { type: "game_state", session, teams }
+    if (data.type === "game_state") {
+      refreshSession(); 
+    }
+
+    if (data.type === "timer") {
+      console.log("Timer:", data.seconds);
+    }
+
+    if (data.type === "answer_submitted") {
+      console.log("Answer submitted:", data);
+    }
+  };
+
+  ws.onerror = (error) => {
+    console.error("WebSocket error:", error);
+  };
+
+  ws.onclose = () => {
+    console.log("WebSocket disconnected");
+  };
+
+  return () => {
+    ws.close();
+  };
+}, [gameSession?.id]);
   return (
     <div className="min-h-screen bg-[#0D0D0D] relative overflow-hidden">
       {/* Background effects */}
