@@ -23,7 +23,7 @@ export default function TeamView() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const team = teams.find((t) => t.id === teamId);
+  const team = (teams || []).find((t) => t.id === teamId);
 
   useEffect(() => {
     if (sessionStorage.getItem(`teamAuth_${teamId}`) !== "true") {

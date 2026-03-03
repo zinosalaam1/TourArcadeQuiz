@@ -54,10 +54,24 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   // 🔥 FETCH TEAMS
   const refreshTeams = useCallback(async () => {
+  try {
     const res = await fetch(`${API_BASE_URL}/teams/`);
+
+    if (!res.ok) {
+      console.error("Failed to fetch teams:", res.status);
+      setTeams([]); // prevent .find crash
+      return;
+    }
+
     const data = await res.json();
-    setTeams(data);
-  }, []);
+
+    // Ensure it's always an array
+    setTeams(Array.isArray(data) ? data : []);
+  } catch (err) {
+    console.error("Network error:", err);
+    setTeams([]);
+  }
+}, []);
 
   // 🔥 FETCH QUESTIONS
   const refreshQuestions = useCallback(async () => {
