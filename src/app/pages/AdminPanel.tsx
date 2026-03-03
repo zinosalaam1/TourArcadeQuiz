@@ -82,8 +82,7 @@ export default function AdminPanel() {
     sessionStorage.removeItem("adminAuth");
     navigate("/");
   };
-const [roundQuestions, setRoundQuestions] = useState<any[]>([]);
-const [gameSession, setGameSession] = useState<any>(null);
+
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] relative overflow-hidden">
