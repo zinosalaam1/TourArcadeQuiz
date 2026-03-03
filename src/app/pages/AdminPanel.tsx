@@ -169,7 +169,7 @@ export default function AdminPanel() {
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-2xl font-black text-blue-400">
                         QUESTION {gameSession?.currentQuestionIndex + 1 ?? 1} / 
-                          {Array.isArray(roundQuestions) ? roundQuestions.length : 0}
+                        {(roundQuestions ?? []).length}
                       </h3>
                       {gameSession.roundType === 'buzzer' && !gameSession.questionRevealed && (
                         <Button
