@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { Button } from "../components/ui/button";
 import { useGame } from "../contexts/GameContext";
 import Scoreboard from "../components/Scoreboard";
+import { Users, ArrowLeft, Play } from "lucide-react";
 
 const API_BASE_URL = "https://tourarcade-quiz.onrender.com/api";
 
