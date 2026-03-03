@@ -160,7 +160,7 @@ export default function AdminPanel() {
                       ))}
                     </div>
                     <p className="text-sm text-purple-400 mt-3 font-mono text-center">
-                      Current: Round {gameSession.currentRound} - {gameSession.roundType.toUpperCase()}
+                      Current: Round {gameSession.currentRound} - {gameSession?.roundType?.toUpperCase() || ""}
                     </p>
                   </div>
 
