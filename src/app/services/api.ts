@@ -22,7 +22,7 @@ export const api = {
     return res.json();
   },
 
-  async startGame() {
+  async handleStartGame() {
     return fetch(`${API_BASE_URL}/session/start/`, {
       method: "POST",
     });
