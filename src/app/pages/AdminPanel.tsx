@@ -26,9 +26,11 @@ export default function AdminPanel() {
 
   if (!gameSession) return <div className="p-6">Loading session...</div>;
 
-  const currentQuestion = questions.find(
-    (q) => q.id === gameSession.current_question_index
-  );
+  const currentQuestion = Array.isArray(questions)
+  ? questions.find(
+      (q) => q.id === gameSession?.current_question_index
+    )
+  : undefined;
 
   // 🔥 Start Game
   const handleStartGame = async () => {

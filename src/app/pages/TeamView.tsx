@@ -44,9 +44,11 @@ export default function TeamView() {
     return <div className="p-6 text-white">Loading...</div>;
   }
 
-  const currentQuestion = questions.find(
-    (q) => q.id === gameSession.current_question_index
-  );
+  const currentQuestion = Array.isArray(questions)
+  ? questions.find(
+      (q) => q.id === gameSession?.current_question_index
+    )
+  : undefined;
 
   const isActiveTeam = gameSession.active_team === team.id;
 
