@@ -82,7 +82,8 @@ export default function AdminPanel() {
     sessionStorage.removeItem("adminAuth");
     navigate("/");
   };
-
+const [roundQuestions, setRoundQuestions] = useState<any[]>([]);
+const [gameSession, setGameSession] = useState<any>(null);
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] relative overflow-hidden">
@@ -168,7 +169,8 @@ export default function AdminPanel() {
                   <div className="p-8 bg-black/60 border-2 border-blue-500/50 rounded-xl min-h-[300px] flex flex-col">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-2xl font-black text-blue-400">
-                        QUESTION {gameSession.currentQuestionIndex + 1} / {roundQuestions.length}
+                        QUESTION {gameSession?.currentQuestionIndex + 1 ?? 1} / 
+                          {Array.isArray(roundQuestions) ? roundQuestions.length : 0}
                       </h3>
                       {gameSession.roundType === 'buzzer' && !gameSession.questionRevealed && (
                         <Button
