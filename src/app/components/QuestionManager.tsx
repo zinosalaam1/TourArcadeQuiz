@@ -15,7 +15,7 @@ import {
 const API_BASE_URL = "https://tourarcade-quiz.onrender.com/api";
 
 interface Question {
-  id: string;
+  id: number;
   round: number;
   question: string;
   answer: string;
@@ -39,7 +39,7 @@ export default function QuestionManager() {
       const res = await fetch(`${API_BASE_URL}/questions/`);
       if (!res.ok) throw new Error("Failed to fetch questions");
       const data = await res.json();
-      setQuestions(data);
+      setQuestions(Array.isArray(data) ? data : data.results || []);
     } catch (err) {
       console.error(err);
     }
@@ -75,7 +75,7 @@ export default function QuestionManager() {
   };
 
   // 🔥 Update Question
-  const handleUpdate = async (id: string) => {
+  const handleUpdate = async (id: number) => {
     if (!formData.question.trim() || !formData.answer.trim()) return;
 
     setLoading(true);
@@ -100,7 +100,7 @@ export default function QuestionManager() {
   };
 
   // 🔥 Delete Question
-  const deleteQuestion = async (id: string) => {
+  const deleteQuestion = async (id: number) => {
     if (!confirm("Are you sure you want to delete this question?")) return;
 
     try {

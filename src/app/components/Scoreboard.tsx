@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion } from "motion/react";
 import { useGame } from "../contexts/GameContext";
-import { Trophy } from "lucide-react";
+import { Trophy, Clock } from "lucide-react";
 
 interface ScoreboardProps {
   compact?: boolean;
@@ -20,7 +20,7 @@ export default function Scoreboard({ compact = false }: ScoreboardProps) {
     return () => clearInterval(interval);
   }, [refreshTeams, refreshSession]);
 
-  const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
+  const sortedTeams = [...(teams ?? [])].sort((a, b) => b.score - a.score);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -102,7 +102,7 @@ export default function Scoreboard({ compact = false }: ScoreboardProps) {
           <div className="flex items-center gap-2 px-4 py-2 bg-red-600/20 border-2 border-red-500 rounded-lg">
             <Clock className="w-5 h-5 text-red-400 animate-pulse" />
             <span className="text-2xl font-black text-red-400 font-mono">
-              {gameSession.timerSeconds}s
+              {gameSession?.timerSeconds ?? 0}s
             </span>
           </div>
         )}

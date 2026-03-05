@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "motion/react";
-import { LogOut, Zap, Send } from "lucide-react";
+import { LogOut, Zap, Send, Clock } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Textarea } from "../components/ui/textarea";
 import { useGame } from "../contexts/GameContext";
@@ -51,6 +51,14 @@ export default function TeamView() {
   : undefined;
 
   const isActiveTeam = gameSession.active_team === team.id;
+
+  const canBuzz =
+  gameSession.buzzerEnabled &&
+  team.status === "waiting";
+
+const canAnswer =
+  isActiveTeam &&
+  gameSession.questionRevealed;
 
   const handleBuzz = async () => {
     try {
