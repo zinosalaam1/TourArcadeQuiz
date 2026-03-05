@@ -268,7 +268,7 @@ const revealQuestion = async () => {
                       <h3 className="text-2xl font-black text-blue-400">
                         QUESTION {(gameSession?.currentQuestionIndex ?? 0) + 1} / {roundQuestions.length}
                       </h3>
-                      {gameSession.roundType === 'buzzer' && !gameSession.questionRevealed && (
+                      {gameSession?.roundType === 'buzzer' && !gameSession.questionRevealed && (
                         <Button
                           onClick={revealQuestion}
                           className="bg-yellow-600 hover:bg-yellow-700 font-black"
