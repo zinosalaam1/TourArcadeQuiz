@@ -132,6 +132,11 @@ useEffect(() => {
     ws.close();
   };
 }, [gameSession?.id]);
+
+if (!gameSession || !teams) {
+  return <div className="p-6 text-white">Loading game state...</div>;
+}
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] relative overflow-hidden">
       {/* Background effects */}
