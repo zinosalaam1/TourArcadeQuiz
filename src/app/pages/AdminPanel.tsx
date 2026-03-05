@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+const [customPoints, setCustomPoints] = useState(10);
+
 import { useNavigate } from "react-router";
 import { Button } from "../components/ui/button";
 import { useGame } from "../contexts/GameContext";
 import Scoreboard from "../components/Scoreboard";
-import { Users, Play } from "lucide-react";
+import { Users, Play, Eye } from "lucide-react";
 import { LogOut} from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
 import QuestionManager from "../components/QuestionManager";
@@ -84,6 +86,97 @@ export default function AdminPanel() {
   };
 
   const roundQuestions = questions ?? []
+
+const handleStartTimer = async () => {
+  await fetch(`${API_BASE_URL}/session/${gameSession.id}/start-timer/`, {
+    method: "POST",
+  });
+  await refreshSession();
+};
+
+const stopTimer = async () => {
+  await fetch(`${API_BASE_URL}/session/${gameSession.id}/stop-timer/`, {
+    method: "POST",
+  });
+  await refreshSession();
+};
+
+const resetTimer = async () => {
+  await fetch(`${API_BASE_URL}/session/${gameSession.id}/reset-timer/`, {
+    method: "POST",
+  });
+  await refreshSession();
+};
+
+const handleCorrect = async () => {
+  if (!gameSession.activeTeamId) return;
+
+  await fetch(`${API_BASE_URL}/teams/${gameSession.activeTeamId}/score/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ correct: true }),
+  });
+
+  await refreshTeams();
+};
+
+const handleWrong = async () => {
+  if (!gameSession.activeTeamId) return;
+
+  await fetch(`${API_BASE_URL}/teams/${gameSession.activeTeamId}/score/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ correct: false }),
+  });
+
+  await refreshTeams();
+};
+
+const previousQuestion = async () => {
+  await fetch(`${API_BASE_URL}/session/${gameSession.id}/previous-question/`, {
+    method: "POST",
+  });
+
+  await refreshSession();
+};
+
+const updateTeamScore = async (teamId, points) => {
+  await fetch(`${API_BASE_URL}/teams/${teamId}/update-score/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ points }),
+  });
+
+  await refreshTeams();
+};
+
+const resetGame = async () => {
+  await fetch(`${API_BASE_URL}/session/${gameSession.id}/reset/`, {
+    method: "POST",
+  });
+
+  await refreshSession();
+  await refreshTeams();
+};
+
+const setRound = async (round) => {
+  await fetch(`${API_BASE_URL}/session/${gameSession.id}/set-round/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ round }),
+  });
+
+  await refreshSession();
+};
+
+const revealQuestion = async () => {
+  await fetch(`${API_BASE_URL}/session/${gameSession.id}/reveal/`, {
+    method: "POST",
+  });
+
+  await refreshSession();
+};
+
 
 
   return (
