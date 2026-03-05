@@ -176,6 +176,33 @@ const revealQuestion = async () => {
   await refreshSession();
 };
 
+const setRound = async (round:number) => {
+  await fetch(`${API_BASE_URL}/session/${gameSession.id}/set-round/`,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json"},
+    body: JSON.stringify({ round })
+  })
+  await refreshSession()
+}
+
+const revealQuestion = async () => {
+  await fetch(`${API_BASE_URL}/session/${gameSession.id}/reveal/`,{
+    method:"POST"
+  })
+  await refreshSession()
+}
+
+const handleStartTimer = () => {}
+const stopTimer = () => {}
+const resetTimer = () => {}
+
+const handleCorrect = () => {}
+const handleWrong = () => {}
+
+const previousQuestion = () => {}
+const resetGame = () => {}
+
+const updateTeamScore = () => {}
 
 
   return (
