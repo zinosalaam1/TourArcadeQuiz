@@ -32,6 +32,10 @@ export default function AdminPanel() {
 
   if (!gameSession) return <div className="p-6">Loading session...</div>;
 
+  if (!Array.isArray(teams) || !Array.isArray(questions)) {
+  return <div className="p-6 text-white">Loading game data...</div>;
+}
+
   const currentQuestion = Array.isArray(questions)
   ? questions.find(
       (q) => q.id === gameSession?.current_question_index
@@ -176,33 +180,6 @@ const revealQuestion = async () => {
   await refreshSession();
 };
 
-const setRound = async (round:number) => {
-  await fetch(`${API_BASE_URL}/session/${gameSession.id}/set-round/`,{
-    method:"POST",
-    headers:{ "Content-Type":"application/json"},
-    body: JSON.stringify({ round })
-  })
-  await refreshSession()
-}
-
-const revealQuestion = async () => {
-  await fetch(`${API_BASE_URL}/session/${gameSession.id}/reveal/`,{
-    method:"POST"
-  })
-  await refreshSession()
-}
-
-const handleStartTimer = () => {}
-const stopTimer = () => {}
-const resetTimer = () => {}
-
-const handleCorrect = () => {}
-const handleWrong = () => {}
-
-const previousQuestion = () => {}
-const resetGame = () => {}
-
-const updateTeamScore = () => {}
 
 
   return (
@@ -289,8 +266,7 @@ const updateTeamScore = () => {}
                   <div className="p-8 bg-black/60 border-2 border-blue-500/50 rounded-xl min-h-[300px] flex flex-col">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-2xl font-black text-blue-400">
-                        QUESTION {gameSession?.currentQuestionIndex + 1 ?? 1} / 
-                        {(roundQuestions ?? []).length}
+                        QUESTION {(gameSession?.currentQuestionIndex ?? 0) + 1} / {roundQuestions.length}
                       </h3>
                       {gameSession.roundType === 'buzzer' && !gameSession.questionRevealed && (
                         <Button
@@ -339,7 +315,7 @@ const updateTeamScore = () => {}
                       SELECT ACTIVE TEAM
                     </h3>
                     <div className="grid grid-cols-2 gap-3">
-                      {teams.map((team) => (
+                      {(teams ?? []).map((team) => (
                         <Button
                           key={team.id}
                           onClick={() => handleSelectTeam(team.id)}
@@ -448,7 +424,7 @@ const updateTeamScore = () => {}
                   {/* Manual Score Adjustment */}
                   <div className="p-6 bg-gradient-to-br from-orange-900/30 to-red-900/30 border-2 border-orange-500/50 rounded-xl">
                     <h3 className="text-xl font-black text-white mb-4">MANUAL SCORE ADJUSTMENT</h3>
-                    {teams.map((team) => (
+                    {(teams ?? []).map((team) => (
                       <div key={team.id} className="flex items-center gap-3 mb-3">
                         <span className="text-white font-mono flex-1">{team.name}</span>
                         <span className="text-2xl font-black text-white w-16 text-center">{team.score}</span>
