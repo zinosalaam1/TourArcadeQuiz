@@ -266,7 +266,8 @@ const revealQuestion = async () => {
                   <div className="p-8 bg-black/60 border-2 border-blue-500/50 rounded-xl min-h-[300px] flex flex-col">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-2xl font-black text-blue-400">
-                        QUESTION {(gameSession?.currentQuestionIndex ?? 0) + 1} / {roundQuestions.length}
+                        QUESTION {(gameSession?.currentQuestionIndex ?? 0) + 1} /
+                        {roundQuestions.length}
                       </h3>
                       {gameSession?.roundType === 'buzzer' && !gameSession.questionRevealed && (
                         <Button
