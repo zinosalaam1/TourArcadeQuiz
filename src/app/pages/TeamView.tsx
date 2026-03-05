@@ -23,7 +23,9 @@ export default function TeamView() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const team = (teams || []).find((t) => t.id === teamId);
+  const team = (teams || []).find(
+  (t) => String(t.id) === String(teamId)
+);
 
   useEffect(() => {
     if (sessionStorage.getItem(`teamAuth_${teamId}`) !== "true") {
@@ -183,7 +185,7 @@ useEffect(() => {
               >
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl font-black text-white">
-                    ROUND {gameSession?.currentRound || 0} - {gameSession?.roundType?.toUpperCase() || ""}
+                   ROUND {gameSession?.currentRound ?? 0} - {gameSession?.roundType?.toUpperCase() ?? ""}
                   </h2>
                   {gameSession.isTimerRunning && (
                     <div className="flex items-center gap-2 px-4 py-2 bg-red-600/20 border-2 border-red-500 rounded-lg">
@@ -221,7 +223,7 @@ useEffect(() => {
               {/* Question Display */}
               <div className="p-8 bg-black/60 border-2 border-purple-500/50 rounded-xl min-h-[300px]">
                 <h3 className="text-xl font-black text-purple-400 mb-4">
-                  QUESTION {gameSession.currentQuestionIndex + 1}
+                  QUESTION {(gameSession?.currentQuestionIndex ?? 0) + 1}
                 </h3>
 
                 {!gameSession.gameStarted ? (
