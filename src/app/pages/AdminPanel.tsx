@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-const [customPoints, setCustomPoints] = useState(10);
-
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { useGame } from "../contexts/GameContext";
 import Scoreboard from "../components/Scoreboard";
@@ -24,6 +22,7 @@ export default function AdminPanel() {
   } = useGame();
 
   const [loading, setLoading] = useState(false);
+  const [customPoints, setCustomPoints] = useState(10);
 
   useEffect(() => {
     if (sessionStorage.getItem("adminAuth") !== "true") {
