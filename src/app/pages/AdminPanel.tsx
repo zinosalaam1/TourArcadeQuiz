@@ -345,7 +345,7 @@ const revealQuestion = async () => {
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-purple-300 font-mono">TIMER</span>
                         <span className="text-4xl font-black text-white font-mono">
-                          {gameSession.timerSeconds}s
+                          {gameSession?.timerSeconds ?? 0}s
                         </span>
                       </div>
                       <div className="flex gap-2">

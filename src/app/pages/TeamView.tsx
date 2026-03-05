@@ -183,13 +183,13 @@ useEffect(() => {
               >
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl font-black text-white">
-                    ROUND {gameSession.currentRound} - {gameSession.roundType.toUpperCase()}
+                    ROUND {gameSession?.currentRound || 0} - {gameSession?.roundType?.toUpperCase() || ""}
                   </h2>
                   {gameSession.isTimerRunning && (
                     <div className="flex items-center gap-2 px-4 py-2 bg-red-600/20 border-2 border-red-500 rounded-lg">
                       <Clock className="w-5 h-5 text-red-400 animate-pulse" />
                       <span className="text-3xl font-black text-red-400 font-mono">
-                        {gameSession.timerSeconds}s
+                        {gameSession?.timerSeconds ?? 0}s
                       </span>
                     </div>
                   )}
@@ -205,14 +205,14 @@ useEffect(() => {
                       <div className="inline-block px-6 py-3 bg-yellow-600 rounded-full animate-pulse">
                         <p className="text-2xl font-black text-white">⚡ YOUR TURN TO ANSWER!</p>
                       </div>
-                      <p className="text-lg text-yellow-300 font-mono">Status: {team.status.toUpperCase()}</p>
+                      <p className="text-lg text-yellow-300 font-mono">Status: {team.status?.toUpperCase() || "WAITING"}</p>
                     </motion.div>
                   ) : (
                     <div className="space-y-4">
                       <div className="inline-block px-6 py-3 bg-blue-600/30 rounded-full">
                         <p className="text-xl font-black text-blue-300">⏳ Waiting for your turn...</p>
                       </div>
-                      <p className="text-lg text-blue-400 font-mono">Status: {team.status.toUpperCase()}</p>
+                      <p className="text-lg text-blue-400 font-mono">Status: {team.status?.toUpperCase() || "WAITING"}</p>
                     </div>
                   )}
                 </div>
