@@ -83,6 +83,8 @@ export default function AdminPanel() {
     navigate("/");
   };
 
+  const roundQuestions = questions ?? []
+
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] relative overflow-hidden">
