@@ -23,7 +23,7 @@ export interface Question {
 export type RoundType = "general" | "pass-the-mic" | "buzzer" | "rapid-fire";
 
 export interface GameSession {
-  id: string;
+  id: number;
   current_round: number;
   current_question_index: number;
   active_team: string | null;
@@ -82,10 +82,31 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   // 🔥 FETCH ACTIVE SESSION
   const refreshSession = useCallback(async () => {
+  try {
     const res = await fetch(`${API_BASE_URL}/session/active/`);
+
+    if (!res.ok) return;
+
     const data = await res.json();
-    setGameSession(data);
-  }, []);
+
+    setGameSession({
+      id: data.id,
+      current_round: data.current_round,
+      current_question_index: data.current_question_index,
+      active_team: data.active_team,
+      timer_seconds: data.timer_seconds,
+      is_timer_running: data.is_timer_running,
+      round_type: data.round_type,
+      buzzer_enabled: data.buzzer_enabled,
+      buzzer_order: data.buzzer_order || [],
+      question_revealed: data.question_revealed,
+      game_started: data.game_started,
+    });
+
+  } catch (err) {
+    console.error("Session fetch error:", err);
+  }
+}, []);
 
   // 🔥 INITIAL LOAD
   useEffect(() => {
