@@ -88,7 +88,7 @@ export default function AdminPanel() {
     navigate("/");
   };
 
-  const roundQuestions = questions ?? []
+
 
 const handleStartTimer = async () => {
   await fetch(`${API_BASE_URL}/session/${gameSession.id}/start-timer/`, {
