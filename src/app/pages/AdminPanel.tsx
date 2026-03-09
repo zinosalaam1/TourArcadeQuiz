@@ -112,9 +112,9 @@ const resetTimer = async () => {
 };
 
 const handleCorrect = async () => {
-  if (!gameSession.activeTeamId) return;
+  if (!gameSession?.activeTeamId) return;
 
-  await fetch(`${API_BASE_URL}/teams/${gameSession.activeTeamId}/score/`, {
+  await fetch(`${API_BASE_URL}/teams/${gameSession?.activeTeamId}/score/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ correct: true }),
@@ -124,9 +124,9 @@ const handleCorrect = async () => {
 };
 
 const handleWrong = async () => {
-  if (!gameSession.activeTeamId) return;
+  if (!gameSession?.activeTeamId) return;
 
-  await fetch(`${API_BASE_URL}/teams/${gameSession.activeTeamId}/score/`, {
+  await fetch(`${API_BASE_URL}/teams/${gameSession?.activeTeamId}/score/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ correct: false }),
@@ -180,7 +180,7 @@ const revealQuestion = async () => {
   await refreshSession();
 };
 
-
+const roundQuestions = gameSession?.roundQuestions || [];
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] relative overflow-hidden">
@@ -201,7 +201,7 @@ const revealQuestion = async () => {
               <p className="text-sm text-purple-400 font-mono">Admin Panel</p>
             </div>
             <div className="flex items-center gap-4">
-              {!gameSession.gameStarted && (
+              {!gameSession?.gameStarted && (
                 <Button
                   onClick={handleStartGame}
                   className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 font-black"
@@ -246,9 +246,9 @@ const revealQuestion = async () => {
                         <Button
                           key={round}
                           onClick={() => setRound(round)}
-                          variant={gameSession.currentRound === round ? 'default' : 'outline'}
+                          variant={gameSession?.currentRound === round ? 'default' : 'outline'}
                           className={`font-black ${
-                            gameSession.currentRound === round
+                            gameSession?.currentRound === round
                               ? 'bg-gradient-to-r from-purple-600 to-pink-600'
                               : 'border-purple-500/50 text-purple-300'
                           }`}
@@ -258,7 +258,7 @@ const revealQuestion = async () => {
                       ))}
                     </div>
                     <p className="text-sm text-purple-400 mt-3 font-mono text-center">
-                      Current: Round {gameSession.currentRound} - {gameSession?.roundType?.toUpperCase() || ""}
+                       Current: Round {gameSession?.currentRound ?? 0} - {gameSession?.roundType?.toUpperCase() || ""}
                     </p>
                   </div>
 
@@ -269,7 +269,7 @@ const revealQuestion = async () => {
                         QUESTION {(gameSession?.currentQuestionIndex ?? 0) + 1} /
                         {roundQuestions.length}
                       </h3>
-                      {gameSession?.roundType === 'buzzer' && !gameSession.questionRevealed && (
+                      {gameSession?.roundType === 'buzzer' && !gameSession?.questionRevealed && (
                         <Button
                           onClick={revealQuestion}
                           className="bg-yellow-600 hover:bg-yellow-700 font-black"
@@ -282,7 +282,7 @@ const revealQuestion = async () => {
 
                     {currentQuestion ? (
                       <div className="flex-1 flex flex-col">
-                        {gameSession.roundType === 'buzzer' && !gameSession.questionRevealed ? (
+                        {gameSession?.roundType === 'buzzer' && !gameSession?.questionRevealed ? (
                           <div className="flex-1 flex items-center justify-center">
                             <p className="text-4xl font-black text-white/30">QUESTION HIDDEN</p>
                           </div>
@@ -320,9 +320,9 @@ const revealQuestion = async () => {
                         <Button
                           key={team.id}
                           onClick={() => handleSelectTeam(team.id)}
-                          variant={gameSession.activeTeamId === team.id ? 'default' : 'outline'}
+                          variant={gameSession?.activeTeamId === team.id ? 'default' : 'outline'}
                           className={`font-black h-16 ${
-                            gameSession.activeTeamId === team.id
+                            gameSession?.activeTeamId === team.id
                               ? 'bg-gradient-to-r from-yellow-600 to-orange-600 animate-pulse'
                               : 'border-blue-500/50 text-blue-300'
                           }`}
